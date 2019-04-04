@@ -26,7 +26,8 @@
     </target>
 
     <target name="clean">
-        <delete dir="target"/>
+        <delete dir="bin"/>
+        <delete dir="bin-test"/>
         <delete dir="${junit.output.dir}"/>
         <delete file="java.tests.jar"/>
     </target>
