@@ -112,7 +112,7 @@ abstract public class CommonTest {
             return is.next();
         }
 
-        switch (type.typeID()) {
+        switch (type.typeID) {
         case 5:
             // random type
             Iterator<? extends Access<? extends Obj>> ts = sf.allTypes().iterator();
