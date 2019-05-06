@@ -25,12 +25,14 @@ public class SimpleTest extends common.CommonTest {
         for (int i = 0; i < 1048576; i++) 
         	sg.BasicBools.make().setBasicBool(false);
         sg.BasicBools.make().setBasicBool(true);
-        sg.flush();
+        sg.close();
         
         {
         	OGFile sg1 = OGFile.open(sg.currentPath(), Mode.ReadOnly);
         	
         	DynamicDataIterator<BasicBool> it = sg1.BasicBools.iterator();
+        	
+        	Assert.assertEquals(1048577, sg1.BasicBools.size());
         	
         	int f = 0;
         	while (it.hasNext()) {
