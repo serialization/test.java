@@ -179,32 +179,44 @@ abstract public class CommonTest {
         return (FieldDeclaration<T>) arg;
     }
 
-    protected <T> ArrayList<T> array(T... ts) {
+    protected static <T> ArrayList<T> array(T... ts) {
         ArrayList<T> rval = new ArrayList<>();
-        for (T t : ts)
-            rval.add(t);
+        // workaround for a javac bug
+        if (null == ts)
+            rval.add(null);
+        else
+            for (T t : ts)
+                rval.add(t);
         return rval;
     }
 
-    protected <T> LinkedList<T> list(T... ts) {
+    protected static <T> LinkedList<T> list(T... ts) {
         LinkedList<T> rval = new LinkedList<>();
-        for (T t : ts)
-            rval.add(t);
+        // workaround for a javac bug
+        if (null == ts)
+            rval.add(null);
+        else
+            for (T t : ts)
+                rval.add(t);
         return rval;
     }
 
-    protected <T> HashSet<T> set(T... ts) {
+    protected static <T> HashSet<T> set(T... ts) {
         HashSet<T> rval = new HashSet<>();
-        for (T t : ts)
-            rval.add(t);
+        // workaround for a javac bug
+        if (null == ts)
+            rval.add(null);
+        else
+            for (T t : ts)
+                rval.add(t);
         return rval;
     }
 
-    protected <K, V> HashMap<K, V> map() {
+    protected static <K, V> HashMap<K, V> map() {
         return new HashMap<>();
     }
 
-    protected <K, V> HashMap<K, V> put(HashMap<K, V> m, K key, V value) {
+    protected static <K, V> HashMap<K, V> put(HashMap<K, V> m, K key, V value) {
         m.put(key, value);
         return m;
     }
