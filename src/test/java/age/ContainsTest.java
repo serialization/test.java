@@ -25,6 +25,18 @@ public class ContainsTest extends common.CommonTest {
 
         Assert.assertFalse(sg.contains(null));
     }
+    
+    /**
+     * a state should immediately contain newly added objects
+     */
+    @Test
+    public void testContainsNew() throws Exception {
+        OGFile sg = OGFile.open(tmpFile("contains"), Mode.Create, Mode.Write);
+        Age age = sg.Ages.make();
+        // new objects have id < 0
+        Assert.assertTrue(age.ID() < 0);
+        Assert.assertTrue(sg.contains(age));
+    }
 
     /**
      * state must contain all of its instances of known type
