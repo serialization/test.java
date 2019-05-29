@@ -24,8 +24,8 @@ import ogss.common.java.internal.StaticFieldIterator;
  * @author Sarah Sophie Stieß
  */
 @SuppressWarnings("static-method")
-public class PoolAPITest extends common.CommonTest {
-
+public class PoolAPITest extends common.CommonTest {   
+    
     /**
      * Tests HintNewObjectSize to ensure that nothing unexpected happens
      */
@@ -174,5 +174,18 @@ public class PoolAPITest extends common.CommonTest {
         Assert.assertEquals(ddi.next(), sdi.next());
         Assert.assertFalse(ddi.hasNext());
         Assert.assertFalse(sdi.hasNext());
+    }
+    
+
+    /**
+     * Ensure that allocation of unknown instances is considered an error
+     */
+    @Test(expected = OGSSException.class)
+    public void testUnknownMake() throws Exception {
+        OGFile sg = OGFile.open(tmpFile("poolapi"), Mode.Create, Mode.Write);
+        sg.close();
+        empty.OGFile sge = empty.OGFile.open(sg.currentPath(), Mode.Read);
+        sge.pool("Age").make();
+        
     }
 }
