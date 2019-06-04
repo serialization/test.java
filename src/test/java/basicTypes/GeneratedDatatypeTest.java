@@ -64,8 +64,8 @@ public class GeneratedDatatypeTest extends common.CommonTest {
 			basicTypes.BasicFloat32 float32_2 = sf2.BasicFloat32s.get(float32.ID());
 			basicTypes.BasicFloat64 float64_2 = sf2.BasicFloat64s.get(float64.ID());
 			// assert fields
-			Assert.assertTrue(int8_2.getBasicInt() + 1 == Byte.MIN_VALUE);
-			Assert.assertTrue(int16_2.getBasicInt() + 1 == Short.MIN_VALUE);
+			Assert.assertTrue((byte) (int8_2.getBasicInt() + 1) == Byte.MIN_VALUE);
+			Assert.assertTrue((short) (int16_2.getBasicInt() + 1) == Short.MIN_VALUE);
 			Assert.assertTrue(int32_2.getBasicInt() + 1 == Integer.MIN_VALUE);
 			Assert.assertTrue(int64I_2.getBasicInt() + 1 == Long.MIN_VALUE);
 			Assert.assertTrue(int64V_2.getBasicInt() + 1 == Long.MIN_VALUE);
@@ -122,8 +122,8 @@ public class GeneratedDatatypeTest extends common.CommonTest {
 			basicTypes.BasicFloat32 float32_2 = sf2.BasicFloat32s.get(float32.ID());
 			basicTypes.BasicFloat64 float64_2 = sf2.BasicFloat64s.get(float64.ID());
 			// assert fields
-			Assert.assertTrue(int8_2.getBasicInt() - 1 == Byte.MAX_VALUE);
-			Assert.assertTrue(int16_2.getBasicInt() - 1 == Short.MAX_VALUE);
+			Assert.assertTrue((byte) (int8_2.getBasicInt() - 1) == Byte.MAX_VALUE);
+			Assert.assertTrue((short) (int16_2.getBasicInt() - 1) == Short.MAX_VALUE);
 			Assert.assertTrue(int32_2.getBasicInt() - 1 == Integer.MAX_VALUE);
 			Assert.assertTrue(int64I_2.getBasicInt() - 1 == Long.MAX_VALUE);
 			Assert.assertTrue(int64V_2.getBasicInt() - 1 == Long.MAX_VALUE);

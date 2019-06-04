@@ -70,10 +70,10 @@ public class DatatypeUnknownFieldsTest extends common.CommonTest {
                     FieldDeclaration<?> f = t.fields().next();
                     if (f.type() instanceof I8) {
                         FieldDeclaration<java.lang.Byte> typedF = (FieldDeclaration<java.lang.Byte>) f;
-                        Assert.assertTrue(typedF.get(o) + 1 == Byte.MIN_VALUE);
+                        Assert.assertTrue((byte) (typedF.get(o) + 1) == Byte.MIN_VALUE);
                     } else if (f.type() instanceof I16) {
                         FieldDeclaration<java.lang.Short> typedF = (FieldDeclaration<java.lang.Short>) f;
-                        Assert.assertTrue(typedF.get(o) + 1 == Short.MIN_VALUE);
+                        Assert.assertTrue((short) (typedF.get(o) + 1) == Short.MIN_VALUE);
                     } else if (f.type() instanceof I32) {
                         FieldDeclaration<java.lang.Integer> typedF = (FieldDeclaration<java.lang.Integer>) f;
                         Assert.assertTrue(typedF.get(o) + 1 == Integer.MIN_VALUE);
@@ -141,10 +141,10 @@ public class DatatypeUnknownFieldsTest extends common.CommonTest {
                     FieldDeclaration<?> f = t.fields().next();
                     if (f.type() instanceof I8) {
                         FieldDeclaration<java.lang.Byte> typedF = (FieldDeclaration<java.lang.Byte>) f;
-                        Assert.assertTrue(typedF.get(o) - 1 == Byte.MAX_VALUE);
+                        Assert.assertTrue((byte) (typedF.get(o) - 1) == Byte.MAX_VALUE);
                     } else if (f.type() instanceof I16) {
                         FieldDeclaration<java.lang.Short> typedF = (FieldDeclaration<java.lang.Short>) f;
-                        Assert.assertTrue(typedF.get(o) - 1 == Short.MAX_VALUE);
+                        Assert.assertTrue((short) (typedF.get(o) - 1) == Short.MAX_VALUE);
                     } else if (f.type() instanceof I32) {
                         FieldDeclaration<java.lang.Integer> typedF = (FieldDeclaration<java.lang.Integer>) f;
                         Assert.assertTrue(typedF.get(o) - 1 == Integer.MAX_VALUE);
