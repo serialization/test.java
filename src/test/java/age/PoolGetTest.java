@@ -3,15 +3,12 @@ package age;
 import org.junit.Assert;
 import org.junit.Test;
 
-import age.Age;
-import age.OGFile;
-
 import ogss.common.java.api.Mode;
-import ogss.common.java.api.OGSSException;
-import ogss.common.java.internal.StaticDataIterator;
 
 /**
  * Tests for a pool's get method
+ * 
+ * @author Sarah Stieß, Timm Felden
  */
 @SuppressWarnings("static-method")
 public class PoolGetTest extends common.CommonTest {
@@ -27,7 +24,8 @@ public class PoolGetTest extends common.CommonTest {
         OGFile sg = OGFile.open(tmpFile("poolapi"), Mode.Create, Mode.Write);
         Age a  = sg.Ages.make();
 
-        Assert.assertEquals(a, sg.Ages.get(a.ID()));
+        // @note one cannot use get before flush
+        Assert.assertNull(sg.Ages.get(a.ID()));
         
         Assert.assertNull(sg.Ages.get(-1));
         Assert.assertNull(sg.Ages.get(0));
