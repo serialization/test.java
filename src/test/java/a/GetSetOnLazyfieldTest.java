@@ -2,6 +2,8 @@ package a;
 
 import static org.junit.Assert.assertTrue;
 
+import java.nio.file.Path;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -108,7 +110,6 @@ public class GetSetOnLazyfieldTest extends common.CommonTest {
 
     /**
      * Test get/set on unknown fields in known type
-     * 
      */
     @Test
     public void test1() throws Exception {
@@ -192,57 +193,69 @@ public class GetSetOnLazyfieldTest extends common.CommonTest {
     }
 
     /**
-     * Test get/set of unknown fields for new instance of known type
-     * 
-     * felder werden nicht geschrieben weil f.owner.cachedSize == 0??
+     * Test get/set of unknown fields for new instance of known type felder werden nicht geschrieben weil
+     * f.owner.cachedSize == 0??
      */
     @Test
     public void test2() throws Exception {
-        aWithFields.OGFile sg = aWithFields.OGFile.open(tmpFile("aaaaa"), Mode.Create, Mode.Write);
-
-        sg.close();
-
-        // read back and assert correctness
-        a.OGFile sg2 = a.OGFile.open(sg.currentPath(), Mode.Read, Mode.Write);
-
-        // Assert number of instances
-        Assert.assertEquals(0, sg2.As.size());
-        // make new instances
-        Obj a = sg2.As.make();
-
-        StaticFieldIterator sfi = sg2.As.fields();
-        assertTrue(sfi.hasNext());
-        while (sfi.hasNext()) {
-            FieldDeclaration<?> f = sfi.next();
-            if (f.name().equals("Arr")) {
-                FieldDeclaration<java.util.ArrayList<Obj>> ff = (FieldDeclaration<java.util.ArrayList<Obj>>) f;                
-                // add items
-                ff.set(a, array(a,a));
-                
-                Assert.assertEquals(2, ff.get(a).size());
-            } else if (f.name().equals("Inst")) {
-                FieldDeclaration<Obj> ff = (FieldDeclaration<Obj>) f;
-                // set
-                ff.set(a, a);
-            } else {
-                Assert.fail("unexpected fieldname.");
-            }
+        final Path currentPath;
+        try (aWithFields.OGFile sg = aWithFields.OGFile.open(tmpFile("aaaaa"), Mode.Create, Mode.Write)) {
+            currentPath = sg.currentPath();
         }
-        sg2.close();
 
         // read back and assert correctness
-        aWithFields.OGFile sg3 = aWithFields.OGFile.open(sg.currentPath(), Mode.Read, Mode.ReadOnly);
-        // check count per Type
-        Assert.assertEquals(1, sg3.As.staticSize());
-        // create objects from file
-        aWithFields.A a_3 = sg3.As.get(a.ID());
-        // assert fields
-        Assert.assertNotNull(a_3.getArr());
-        Assert.assertEquals(2, a_3.getArr().size());
-        Assert.assertEquals(a_3, a_3.getArr().get(0));
-        Assert.assertEquals(a_3, a_3.getArr().get(1));
+        final Obj ref;
+        try (a.OGFile sg = a.OGFile.open(currentPath, Mode.Read, Mode.Write)) {
 
-        Assert.assertNotNull(a_3.getInst());
-        Assert.assertEquals(a_3, a_3.getInst());
+            // Assert number of instances
+            Assert.assertEquals(0, sg.As.size());
+            // make new instances
+            ref = sg.As.make();
+
+            StaticFieldIterator sfi = sg.As.fields();
+            assertTrue(sfi.hasNext());
+            boolean didArr = false, didInst = false;
+            while (sfi.hasNext()) {
+                FieldDeclaration<?> f = sfi.next();
+                if (f.name().equals("Arr")) {
+                    didArr = true;
+
+                    @SuppressWarnings("unchecked")
+                    FieldDeclaration<java.util.ArrayList<Obj>> ff = (FieldDeclaration<java.util.ArrayList<Obj>>) f;
+                    // add items
+                    ff.set(ref, array(ref, ref));
+
+                    Assert.assertEquals(2, ff.get(ref).size());
+                } else if (f.name().equals("Inst")) {
+                    didInst = true;
+
+                    @SuppressWarnings("unchecked")
+                    FieldDeclaration<Obj> ff = (FieldDeclaration<Obj>) f;
+                    // set
+                    ff.set(ref, ref);
+                } else {
+                    Assert.fail("unexpected fieldname.");
+                }
+            }
+
+            assertTrue(didArr);
+            assertTrue(didInst);
+        }
+
+        // read back and assert correctness
+        try (aWithFields.OGFile sg = aWithFields.OGFile.open(currentPath, Mode.Read, Mode.ReadOnly)) {
+            // check count per Type
+            Assert.assertEquals(1, sg.As.staticSize());
+            // create objects from file
+            aWithFields.A a_3 = sg.As.get(ref.ID());
+            // assert fields
+            Assert.assertNotNull(a_3.getArr());
+            Assert.assertEquals(2, a_3.getArr().size());
+            Assert.assertEquals(a_3, a_3.getArr().get(0));
+            Assert.assertEquals(a_3, a_3.getArr().get(1));
+
+            Assert.assertNotNull(a_3.getInst());
+            Assert.assertEquals(a_3, a_3.getInst());
+        }
     }
 }
