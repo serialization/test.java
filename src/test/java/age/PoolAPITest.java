@@ -16,16 +16,14 @@ import ogss.common.java.internal.StaticDataIterator;
 import ogss.common.java.internal.StaticFieldIterator;
 
 /**
- * Tests with regard to the pool API.
- * 
- * These tests do not cover methods that are package private and they do not
- * cover add and get because those methods got their own test cases. package.
+ * Tests with regard to the pool API. These tests do not cover methods that are package private and they do not cover
+ * add and get because those methods got their own test cases. package.
  * 
  * @author Sarah Sophie Stieß
  */
 @SuppressWarnings("static-method")
-public class PoolAPITest extends common.CommonTest {   
-    
+public class PoolAPITest extends common.CommonTest {
+
     /**
      * Tests HintNewObjectSize to ensure that nothing unexpected happens
      */
@@ -71,9 +69,7 @@ public class PoolAPITest extends common.CommonTest {
     }
 
     /**
-     * Tests supertype
-     * 
-     * warum ist superpool eigentlich sichtbar?
+     * Tests supertype warum ist superpool eigentlich sichtbar?
      */
     @Test
     public void testSuper() throws Exception {
@@ -140,9 +136,7 @@ public class PoolAPITest extends common.CommonTest {
     }
 
     /**
-     * Tests field iterators. Age has no subtypes, thus both iterator iterate over
-     * the same fields
-     * 
+     * Tests field iterators. Age has no subtypes, thus both iterator iterate over the same fields
      */
     @Test
     public void testFields() throws Exception {
@@ -158,8 +152,7 @@ public class PoolAPITest extends common.CommonTest {
     }
 
     /**
-     * Tests instance iterators. Age has no subtypes, thus both iterator iterate
-     * over the same instances
+     * Tests instance iterators. Age has no subtypes, thus both iterator iterate over the same instances
      */
     @Test
     public void testInstances() throws Exception {
@@ -175,17 +168,18 @@ public class PoolAPITest extends common.CommonTest {
         Assert.assertFalse(ddi.hasNext());
         Assert.assertFalse(sdi.hasNext());
     }
-    
 
     /**
-     * Ensure that allocation of unknown instances is considered an error
+     * Ensure that allocation of unknown instances is possible.
      */
-    @Test(expected = OGSSException.class)
+    @Test
     public void testUnknownMake() throws Exception {
         OGFile sg = OGFile.open(tmpFile("poolapi"), Mode.Create, Mode.Write);
         sg.close();
         empty.OGFile sge = empty.OGFile.open(sg.currentPath(), Mode.Read);
-        sge.pool("Age").make();
-        
+
+        Assert.assertNotNull(sge.pool("Age").make());
+
+        Assert.assertEquals(1, sge.pool("Age").size());
     }
 }
