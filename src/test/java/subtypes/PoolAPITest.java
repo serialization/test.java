@@ -17,10 +17,7 @@ import ogss.common.java.internal.StaticDataIterator;
 import ogss.common.java.internal.StaticFieldIterator;
 
 /**
- * Tests with regard to the pool API
- * 
- * These tests are the same as those in the age package but here we have
- * subtypes.
+ * Tests with regard to the pool API These tests are the same as those in the age package but here we have subtypes.
  * 
  * @author Sarah Sophie Stieß
  */
@@ -60,9 +57,7 @@ public class PoolAPITest extends common.CommonTest {
     }
 
     /**
-     * Tests
-     * 
-     * warum ist superpool eigentlich sichtbar?
+     * Tests warum ist superpool eigentlich sichtbar?
      */
     @Test
     public void testSuper() throws Exception {
@@ -150,7 +145,6 @@ public class PoolAPITest extends common.CommonTest {
 
     /**
      * Tests field iterators.
-     * 
      */
     @Test
     public void testFields() throws Exception {
@@ -210,5 +204,24 @@ public class PoolAPITest extends common.CommonTest {
         // assert A's instance of B
         Assert.assertEquals(ddia.next(), sg.Bs.staticInstances().next());
         Assert.assertFalse(ddia.hasNext());
+    }
+
+    /**
+     * Tests delete insances
+     */
+    @Test
+    public void testDelete() throws Exception {
+        OGFile sg = OGFile.open("../../src/test/resources/binarygen/[[empty]]/accept/poly.sg", Mode.Read,
+                Mode.ReadOnly);
+
+        // delete all Ds
+        for (D d : sg.Ds)
+            sg.delete(d);
+
+        sg.changePath(tmpFile("delete"));
+        sg.close();
+
+        Assert.assertEquals(0, sg.Ds.size());
+        Assert.assertEquals(0, OGFile.open(sg.currentPath()).Ds.size());
     }
 }
