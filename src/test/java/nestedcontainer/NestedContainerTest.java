@@ -3,13 +3,9 @@ package nestedcontainer;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.sun.org.apache.xpath.internal.operations.Mod;
-
-import nestedcontainer.OGFile;
 import ogss.common.java.api.Access;
 import ogss.common.java.api.FieldDeclaration;
 import ogss.common.java.api.Mode;
-import ogss.common.java.api.OGSSException;
 import ogss.common.java.internal.Obj;
 import ogss.common.java.internal.StaticFieldIterator;
 
